@@ -1,0 +1,17 @@
+ERROR 2019-09-12 02:23:14.792 engineio.server server - _trigger_event: message handler error
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/engineio/server.py", line 535, in _trigger_event
+    return self.handlers[event](*args)
+  File "/usr/local/lib/python3.6/dist-packages/socketio/server.py", line 705, in _handle_eio_message
+    self._handle_connect(sid, pkt.namespace)
+  File "/usr/local/lib/python3.6/dist-packages/socketio/server.py", line 600, in _handle_connect
+    self.environ[sid])
+  File "/usr/local/lib/python3.6/dist-packages/socketio/server.py", line 677, in _trigger_event
+    return self.handlers[namespace][event](*args)
+  File "/usr/local/lib/python3.6/dist-packages/flask_socketio/__init__.py", line 284, in _handler
+    *args)
+  File "/usr/local/lib/python3.6/dist-packages/flask_socketio/__init__.py", line 696, in _handle_event
+    ret = handler()
+  File "App.py", line 84, in connect
+    for camera in system.cameras.items():
+AttributeError: 'list' object has no attribute 'items'

@@ -1,0 +1,14 @@
+{
+    "name": "value",
+    "type": "record",
+    "fields" : [
+        {
+           "name" : "track_id",
+           "type" : "int"
+        },
+        {
+           "name" : "moi_id",
+           "type" : "int"
+        }
+   ]
+}

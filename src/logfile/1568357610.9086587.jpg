@@ -1,0 +1,19 @@
+ERROR 2019-09-13 06:55:35.446 werkzeug _internal - _log: Error on request:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/serving.py", line 303, in run_wsgi
+    execute(self.server.app)
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/serving.py", line 291, in execute
+    application_iter = app(environ, start_response)
+  File "/usr/local/lib/python3.6/dist-packages/flask/app.py", line 2463, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/local/lib/python3.6/dist-packages/flask_socketio/__init__.py", line 46, in __call__
+    start_response)
+  File "/usr/local/lib/python3.6/dist-packages/engineio/middleware.py", line 60, in __call__
+    return self.engineio_app.handle_request(environ, start_response)
+  File "/usr/local/lib/python3.6/dist-packages/socketio/server.py", line 534, in handle_request
+    return self.eio.handle_request(environ, start_response)
+  File "/usr/local/lib/python3.6/dist-packages/engineio/server.py", line 383, in handle_request
+    socket = self._get_socket(sid)
+  File "/usr/local/lib/python3.6/dist-packages/engineio/server.py", line 551, in _get_socket
+    raise KeyError('Session is disconnected')
+KeyError: 'Session is disconnected'

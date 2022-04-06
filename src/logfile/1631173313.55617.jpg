@@ -1,0 +1,1 @@
+ERROR 2021-09-09 07:41:55.239 engineio.server server - _log_error_once: The client is using an unsupported version of the Socket.IO or Engine.IO protocols (further occurrences of this error will be logged with level INFO)

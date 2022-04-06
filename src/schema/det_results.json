@@ -1,0 +1,34 @@
+{
+    "name": "value",
+    "type": "record",
+    "fields" : [
+        {
+           "name" : "frame_id",
+           "type" : "int"
+        },
+        {
+           "name" : "bbox",
+           "type" : {
+               "type": "array",
+               "items": {
+                   "type": "array",
+                   "items": "int"
+               }
+           }
+        },
+        {
+            "name": "class",
+            "type": {
+                "type": "array",
+                "items": "int"
+            }
+        },
+        {
+            "name": "score",
+            "type": {
+                "type": "array",
+                "items": "float"
+            }
+        }
+   ]
+}

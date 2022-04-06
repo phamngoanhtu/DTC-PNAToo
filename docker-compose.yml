@@ -1,0 +1,97 @@
+version: '3.9'
+
+services:
+
+    # nginx:
+    #     image: nginx:latest        
+    #     volumes:
+    #         - ./config/nginx.conf:/etc/nginx/nginx.conf
+    #     ports:
+    #         - "28374:80"
+    #     depends_on:
+    #         - kafka
+    #         - integration
+
+    integration:
+        build: ./src/
+        restart: on-failure
+        ports:
+            - "5000:8000"
+        volumes:
+            - storage:/storage
+            - /mlcv/WorkingSpace/Projects/VehicleCounting/khanhmmlab/Team2/home/counting/dataset/Traffic_CongHoa-TruongChinh/Videos:/Videos
+        depends_on:
+            - kafka
+            - schema-registry
+
+    preprocessing:
+        build: ./preprocessing/
+        restart: on-failure
+        volumes:
+            - storage:/storage
+        depends_on:
+            - kafka
+            - schema-registry
+
+    detection:
+        build: ./detection/
+        restart: on-failure
+        runtime: nvidia
+        shm_size: '100mb'
+        volumes:
+            - storage:/storage
+        depends_on:
+            - kafka
+            - schema-registry
+
+    tracking:
+        build: ./tracking/
+        restart: on-failure
+        volumes:
+            - storage:/storage
+        depends_on:
+            - kafka
+            - schema-registry
+
+    counting:
+        build: ./counting/
+        restart: on-failure
+        volumes:
+            - storage:/storage
+        depends_on:
+            - kafka
+            - schema-registry
+
+    zookeeper:
+        image: confluentinc/cp-zookeeper:latest
+        restart: on-failure
+        environment:
+            - ZOOKEEPER_CLIENT_PORT=${ZOOKEEPER_CLIENT_PORT}
+            - ZOOKEEPER_TICK_TIME=${ZOOKEEPER_TICK_TIME}
+  
+    kafka:
+        image: confluentinc/cp-kafka:latest
+        restart: on-failure
+        environment:
+            - KAFKA_BROKER_ID=${KAFKA_BROKER_ID}
+            - KAFKA_ZOOKEEPER_CONNECT=${KAFKA_ZOOKEEPER_CONNECT}
+            - KAFKA_ADVERTISED_LISTENERS=${KAFKA_ADVERTISED_LISTENERS}
+            - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=${KAFKA_LISTENER_SECURITY_PROTOCOL_MAP}
+            - KAFKA_INTER_BROKER_LISTENER_NAME=${KAFKA_INTER_BROKER_LISTENER_NAME}
+            - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=${KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR}
+        depends_on:
+            - zookeeper
+            - schema-registry
+
+    schema-registry:
+        image: confluentinc/cp-schema-registry:5.1.2
+        restart: on-failure
+        depends_on:
+            - zookeeper
+        environment:
+            - SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL=${KAFKA_ZOOKEEPER_CONNECT}
+            - SCHEMA_REGISTRY_HOST_NAME=schema-registry
+            - SCHEMA_REGISTRY_LISTENERS=${SCHEMA_REGISTRY_LISTENERS}
+
+volumes:
+    storage:

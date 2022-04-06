@@ -1,0 +1,38 @@
+ERROR 2021-09-11 13:25:28.776 engineio.server server - _log_error_once: The client is using an unsupported version of the Socket.IO or Engine.IO protocols (further occurrences of this error will be logged with level INFO)
+ERROR 2021-09-11 13:27:33.674 App app - log_exception: Exception on /remove_camera [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.6/dist-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.6/dist-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.6/dist-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "App.py", line 84, in remove_camera
+    system.remove_camera()
+TypeError: remove_camera() missing 1 required positional argument: 'camID'
+ERROR 2021-09-11 13:27:34.723 App app - log_exception: Exception on /remove_camera [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.6/dist-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.6/dist-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.6/dist-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "App.py", line 84, in remove_camera
+    system.remove_camera()
+TypeError: remove_camera() missing 1 required positional argument: 'camID'
+ERROR 2021-09-11 14:47:58.254 werkzeug _internal - _log: Error on request:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/serving.py", line 319, in run_wsgi
+    execute(self.server.app)
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/serving.py", line 311, in execute
+    write(data)
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/serving.py", line 290, in write
+    self.wfile.write(data)
+  File "/usr/lib/python3.6/socketserver.py", line 803, in write
+    self._sock.sendall(b)
+TimeoutError: [Errno 110] Connection timed out

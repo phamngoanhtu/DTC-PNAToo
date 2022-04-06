@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>AIC demo</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/css/mdb.min.css" rel="stylesheet">
+  <!-- Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+</head>
+
+<body>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark" id="navbar">
+    <a style="font-family:Arial, Helvetica, sans-serif" class="navbar-brand" href="#">Giới thiệu sản phẩm "Một giải pháp nâng cao độ chính xác cho bài toán đếm phương tiện giao thông"</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a style="font-family:Arial, Helvetica, sans-serif" class="nav-link waves-effect waves-light"
+            href="./"><span class="sr-only">(current)</span></a>
+        </li>
+
+        <!-- <li class="nav-item">
+          <a style="font-family:Arial, Helvetica, sans-serif" class="nav-link waves-effect waves-light" href="./manage">Manage</a>
+        </li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- <audio id="alert" src="{{ url_for('static', filename='audio/notification.m4a') }}" preload="auto"></audio> -->
+  <div class="modal fade right" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-side modal-bottom-right" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title w-100" id="myModalLabel">Alert!</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="alert_message"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-2" id="sidenav" style="overflow-y: scroll;height: 100%;">
+
+    <div class="list-group list-group-flush tab">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <!-- <li class="nav-item">
+          <a class="nav-link active" id="p-tab" data-toggle="tab" href="#people" role="tab" aria-controls="home"
+            aria-selected="true">Location</a>
+        </li> -->
+        <li class="nav-item">
+          <a style="font-family:Arial, Helvetica, sans-serif;" class="nav-link" id="c-tab" data-toggle="tab"
+            href="#cameras" role="tab" aria-controls="profile" aria-selected="false">Cameras</a>
+          <a style="font-family:Arial, Helvetica, sans-serif;" class="nav-link" id="c-tab" data-toggle="tab"
+            href="#cameras" role="tab" aria-controls="profile" aria-selected="false">Cameras</a>
+        </li>
+
+      </ul>
+      <div class="tab-content" id="">
+        <div class="tab-pane fade show active" id="people" role="tabpanel" aria-labelledby="home-tab">
+          <form class="form-inline sidebar-search">
+            <div class="md-form my-0">
+              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            </div>
+            <!-- <div class="list-group" id="members">
+              <a href="#!" class="list-group-item list-group-item-action">
+                Loading...
+              </a>
+
+            </div> -->
+        </div>
+        <div class="tab-pane fade" id="cameras" role="tabpanel"
+          aria-labelledby="profile-tab">
+          <div id="cam_list"> </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid" id="container">
+
+
+    <div class="row" id="main">
+      <div class="col-2 ">
+      </div>
+
+
+      <div class="col-10" id="dash">
+        <div class="row">
+          <div class="col">
+            <h5 style="font-family:Arial, Helvetica, sans-serif;padding-left: 15px; padding-top: 0px; color: #848484;">
+              Live Video</h5>
+            <div class="box">
+              <img id="frame" style="background-color: grey; max-height: 450px!important;">
+            </div>
+          </div>
+          <div class="col">
+            <h5 style="font-family:Arial, Helvetica, sans-serif;padding-left: 15px; padding-top: 0px; color: #848484;">
+              Graph</h5>
+            <div class="box" style="width: 720px;">
+              <div id="price_chart" class="chart" style="width: 100%;height:400px;display: block;"></div>
+
+              <!-- <div id="graph" class="chart" style="width: 100%;height: 350px;display: none;"></div> -->
+            </div>
+          </div>
+          
+          <!-- <div class="col" id="mem_panel">
+            <h5 style="font-family:Arial, Helvetica, sans-serif;padding-left: 15px; padding-top: 0px; color: #848484;">
+              Details</h5>
+
+            <div class="box" style="padding: 30px;">
+              <h5 style="font-family:Arial, Helvetica, sans-serif">ID</h5>
+              <p id="disp-id" style="color: grey"></p>
+              <h5 style="font-family:Arial, Helvetica, sans-serif">Name</h5>
+              <p id="disp-name" style="color: grey"> </p>
+              <h5 style="font-family:Arial, Helvetica, sans-serif">Phone Number</h5>
+              <p id="disp-phone" style="color: grey"></p>
+              <h5 style="font-family:Arial, Helvetica, sans-serif">Email ID</h5>
+              <p id="disp-email" style="color: grey"></p>
+              <h5 style="font-family:Arial, Helvetica, sans-serif">Authorised</h5>
+              <p id="disp-auth" style="color: grey"></p>
+              <a href="" id="log">View Log</a>
+
+            </div>
+          </div> -->
+          <div class="col" id="cam_panel" style="display:none">
+            <h5 style="font-family:Arial, Helvetica, sans-serif;padding-left: 15px; padding-top: 0px; color: #848484;">
+              Details</h5>
+            <div class="box" style="padding: 30px;" >
+              <h5>Camera ID</h5>
+              <p id="c-disp-id" style="color: grey"></p>
+              <h5>Location</h5>
+              <p id="c-disp-loc-name" style="color: grey"> </p>
+              <h5>Cordinates</h5>
+              <p id="c-disp-loc" style="color: grey"></p>
+              <h5>Status</h5>
+              <p id="c-disp-status" style="color: grey">Streaming...</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          
+            <div class="col">
+              <h5
+                style="font-family:Arial, Helvetica, sans-serif;padding-left: 15px; padding-top: 20px; color: #848484;">
+                Camera Location</h5>
+              <div class="box">
+                <!-- <iframe src="{{ url_for('well_map')}}" style="width: 100%;height: 500px;overflow: hidden;"></iframe> -->
+                <div id='map' style="height: auto;"></div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      setTimeout(fix, 1000);
+      function fix() {
+        if (document.getElementById("frame").naturalWidth == 0 && document.getElementById("frame").src != "") {
+          document.getElementById("frame").style.backgroundColor = "black";
+          temp = document.getElementById("frame").src;
+          document.getElementById("frame").src = "";
+          document.getElementById("frame").src = temp;
+        }
+        else {
+          document.getElementById("frame").style.backgroundColor = "grey";
+        }
+      }
+      setTimeout(fix, 2000)
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <script type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <!-- Plotly.js -->
+
+    <!-- import Pusher-js library -->
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
+
+    <!-- <script type='text/javascript'>
+      var graphs = {{ graphJSON | safe}};
+      Plotly.plot('chart', graphs, {});
+    </script> -->
+
+    <script type="text/javascript">
+      const pusher = new Pusher('5fcda7fc431248b78bb1', {
+        cluster: 'ap1', // gotten from Pusher app dashboard
+        encrypted: true // optional
+      });
+      
+      const channel = pusher.subscribe('crypto')
+      channel.bind('data-updated', data => {
+          const graph = JSON.parse(data.graph);
+          Plotly.newPlot('price_chart', graph);
+
+          // const graph2 = JSON.parse(data.graph2);
+          // Plotly.newPlot('graph', graph2);
+      });
+    </script>
+</body>
+
+</html>

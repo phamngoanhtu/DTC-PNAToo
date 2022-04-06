@@ -1,0 +1,14 @@
+{
+    "name": "value",
+    "type": "record",
+    "fields" : [
+        {
+        "name" : "frame_id",
+        "type" : "int"
+        },
+        {
+        "name" : "url",
+        "type" : "string"
+        }
+    ]
+}

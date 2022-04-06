@@ -1,0 +1,5 @@
+opencv-python==4.2.0.34
+uvicorn==0.14.0
+fastapi==0.65.2
+configparser==5.0.2
+confluent-kafka[avro]==1.7.0

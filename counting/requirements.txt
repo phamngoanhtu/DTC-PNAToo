@@ -1,0 +1,2 @@
+similaritymeasures
+confluent-kafka[avro]==1.7.0

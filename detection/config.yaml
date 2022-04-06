@@ -1,0 +1,4 @@
+train: train.txt
+val: test.txt
+nc: 5
+names: ['0','1','2','3','4']

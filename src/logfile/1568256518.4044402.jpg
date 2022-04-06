@@ -1,0 +1,30 @@
+ERROR 2019-09-12 02:48:57.516 werkzeug _internal - _log: Error on request:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/serving.py", line 303, in run_wsgi
+    execute(self.server.app)
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/serving.py", line 293, in execute
+    for data in application_iter:
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/wsgi.py", line 507, in __next__
+    return self._next()
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/wrappers/base_response.py", line 45, in _iter_encoded
+    for item in iterable:
+  File "/host/surveillanceFramework/App.py", line 55, in gen
+    frame = camera.read_processed()
+  File "/host/surveillanceFramework/Camera.py", line 30, in read_processed
+    frame = self.processor.processing_frame
+AttributeError: 'CAMERA' object has no attribute 'processor'
+ERROR 2019-09-12 02:49:03.127 werkzeug _internal - _log: Error on request:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/serving.py", line 303, in run_wsgi
+    execute(self.server.app)
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/serving.py", line 293, in execute
+    for data in application_iter:
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/wsgi.py", line 507, in __next__
+    return self._next()
+  File "/usr/local/lib/python3.6/dist-packages/werkzeug/wrappers/base_response.py", line 45, in _iter_encoded
+    for item in iterable:
+  File "/host/surveillanceFramework/App.py", line 55, in gen
+    frame = camera.read_processed()
+  File "/host/surveillanceFramework/Camera.py", line 30, in read_processed
+    frame = self.processor.processing_frame
+AttributeError: 'CAMERA' object has no attribute 'processor'
